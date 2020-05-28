@@ -2,6 +2,8 @@
 """Example Google style docstrings.
 Este scripot es el encargado de configurar el entorno y llamar a las funciones
 correspondientes y en el orden que se debe
+
+TODO: add logging
 """
 
 
@@ -14,7 +16,6 @@ import socket
 from descarga_GFS025 import download
 from namelists import editar_namelist_wps
 from parametrizaciones import ParametrizacionWRF
-from mail import enviar_mail
 
 
 def log_date(log):
@@ -173,10 +174,5 @@ def main():
     # Generar media
     gen_final()
 
-    # Enviar mails
-    if os.getenv('MAIL') == '1':
-        enviar_mail()
 
-
-if __name__ == "__main__":
-    main()
+main()

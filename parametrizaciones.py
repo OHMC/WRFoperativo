@@ -50,22 +50,26 @@ class ParametrizacionWRF(object):
 
     def run_wrf(self):
         print('Se linkean los ejecutables de WRF')
-        os.system('mkdir -p ' + self.carpeta + '/WRF')
-        os.system('ln -sf ' + os.getenv('WRF_BASE') + '/WRFV3/test/em_real/* ' + self.carpeta + '/WRF/')
+        os.system(f"mkdir -p {self.carpeta}/WRF")
+        os.system(f"ln -sf {os.getenv('WRF_BASE')}/WRFV3/test/em_real/* "
+                  f"{self.carpeta}/WRF/")
 
         print('Se linkean las salidas de WPS')
-        os.system('ln -sf ' + os.getenv('TEMP_DIR') + '/WPS/met_em.* ' + self.carpeta + '/WRF/')
+        os.system(f"ln -sf {os.getenv('TEMP_DIR')}/WPS/met_em.* "
+                  f"{self.carpeta}/WRF/")
 
-        print('Se edita el namelist para ' + self.nombre)
+        print(f"Se edita el namelist para {self.nombre}")
         editar_namelist_wrf(self.nombre)
 
-        os.chdir(self.carpeta + '/WRF/')
+        os.chdir(f"{self.carpeta}/WRF/")
 
         print('Se ejecuta el REAL')
-        os.system("time prun ./real.exe > $LOGS_DIR/$Y'_'$M/$D'_'$H/real_" + self.nombre  + "_`date +%Y%m%d%H%M`.log 2>&1")
+        os.system(f"time prun ./real.exe > $LOGS_DIR/$Y'_'$M/$D'_'$H/real_"
+                  f"{self.nombre}_`date +%Y%m%d%H%M`.log 2>&1")
 
         print('Se ejecuta el WRF')
-        os.system("time prun ./wrf.exe > $LOGS_DIR/$Y'_'$M/$D'_'$H/wrf_" + self.nombre + "_`date +%Y%m%d%H%M`.log 2>&1")
+        os.system(f"time prun ./wrf.exe > $LOGS_DIR/$Y'_'$M/$D'_'$H/wrf_"
+                  f"{self.nombre}_`date +%Y%m%d%H%M`.log 2>&1")
 
     def extraer_variables(self):
         pass
