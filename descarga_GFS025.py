@@ -208,7 +208,8 @@ def download(output_dir, list_remote_files, list_files_local):
                 # The following prints on the sceen the entire
                 # text of the request
                 print("Request remote file: ", remote_file)
-                if ((not (os.path.exists(local_file))) or ((os.path.getsize(local_file)) <= 20000000)):
+                if ((not (os.path.exists(local_file))) or
+                   ((os.path.getsize(local_file)) <= 20000000)):
                     # Download de remopte file
                     ierr = download_grb_file(remote_file, local_file)
                     print('dowloading error= ', ierr)
