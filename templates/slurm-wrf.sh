@@ -17,10 +17,9 @@
 
 python $WRF_OPERATIVO/runWRFpost.py --param={{PARAM}}
 
-cp -a $HOME/wrfplot $TEMP_DIR/{{PARAM}}/
+cp -a $HOME/wrfplot-v1.2.0 $TEMP_DIR/{{PARAM}}/
 
-
-cd $TEMP_DIR/{{PARAM}}/wrfplot
+cd $TEMP_DIR/{{PARAM}}/wrfplot-v1.2.0
 
 source $WRF_OPERATIVO/env-node.sh
 conda activate wrfplot-env32
@@ -38,9 +37,9 @@ ray stop
 
 source activate wrfcuenca3
 
-cp -a $HOME/wrf-cuenca $TEMP_DIR/{{PARAM}}/
+cp -a $HOME/wrf-cuenca-v0.9.0 $TEMP_DIR/{{PARAM}}/
 
-cd $TEMP_DIR/{{PARAM}}/wrf-cuenca
+cd $TEMP_DIR/{{PARAM}}/wrf-cuenca-v0.9.0
 
 time python3 cuencas_wrf.py {{WRFOUT}}  /home/wrf/datos-webwrf/img/plots/ /home/wrf/datos-webwrf/datos-meteo/ 'CBA_{{PARAM}}_'$H
 
