@@ -85,7 +85,8 @@ def descargar(i=0):
 
     # Descargamos los GFS
     try:
-        download(inidate, output)
+        list_remote_files, list_files_local = get_list_gfs(inidate)
+        download(output, list_remote_files, list_files_local)
     except socket.timeout as err:
         print(err)
         descargar(i)
