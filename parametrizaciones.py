@@ -82,7 +82,7 @@ class ParametrizacionWRF(object):
     def run_wrf(self):
         print('Se linkean los ejecutables de WRF')
         os.system(f"mkdir -p {self.carpeta}/WRF")
-        os.system(f"ln -sf {os.getenv('WRF_BASE')}/WRFV3/test/em_real/* "
+        os.system(f"ln -sf {os.getenv('WRF_BASE')}/WRF-4.1.1/test/em_real/* "
                   f"{self.carpeta}/WRF/")
 
         print('Se linkean las salidas de WPS')
