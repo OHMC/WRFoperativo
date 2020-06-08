@@ -66,14 +66,15 @@ class ParametrizacionWRF(object):
     def run_wrf_post(self):
         os.chdir(self.carpeta)
         print(f"slef: {self}")
-        self.generar_slurm_sh(self)
+
+        self.generar_slurm_sh()
         _, output = subprocess.getstatusoutput('sbatch slurm-wrf.sh')
         self.job_id = output.split(' ')[3]
 
     def run_wrf_ingestor(self):
         os.chdir(self.carpeta)
 
-        self.generar_slurm_sh_ingestor(self)
+        self.generar_slurm_sh_ingestor()
 
         _, output = subprocess.getstatusoutput('slurm-wrf-ingestor.sh')
         self.job_id = output.split(' ')[3]
