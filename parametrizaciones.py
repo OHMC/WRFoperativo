@@ -65,6 +65,7 @@ class ParametrizacionWRF(object):
 
     def run_wrf_post(self):
         os.chdir(self.carpeta)
+        print(f"slef: {self}")
         self.generar_slurm_sh(self)
         _, output = subprocess.getstatusoutput('sbatch slurm-wrf.sh')
         self.job_id = output.split(' ')[3]
