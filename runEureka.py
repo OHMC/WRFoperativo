@@ -13,7 +13,7 @@ import time
 import datetime
 import socket
 
-from descarga_GFS025 import download
+from descarga_GFS025 import download, get_list_gfs
 from namelists import editar_namelist_wps
 from parametrizaciones import ParametrizacionWRF
 
