@@ -169,10 +169,10 @@ def main():
         # Se crea la clase para esta parametrización
         param_classes[codigo] = ParametrizacionWRF(codigo)
         # Se ejecuta el WRF y el post-procesamiento para cada prametrización
-        param_classes[codigo].run_wrf_post(codigo)
+        param_classes[codigo].run_wrf_post()
         jobs_ids[codigo] = param_classes[codigo].job_id
 
-        param_classes[codigo].run_wrf_ingestor(codigo)
+        param_classes[codigo].run_wrf_ingestor()
         jobs_ids[codigo] = param_classes[codigo].job_id
 
     # Generar media
