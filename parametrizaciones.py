@@ -40,12 +40,43 @@ class ParametrizacionWRF(object):
         with open(self.carpeta + '/slurm-wrf.sh', 'w') as file:
             file.write(filedata)
 
+    def generar_slurm_sh_ingestor(self):
+        # Se copia el template
+        os.system(f"cp -a {os.getenv('TEMPLATES_DIR')}/slurm-wrf-ingestor.sh "
+                  f"{self.carpeta}/slurm-wrf-post.sh")
+
+        # Se reemplazan las variables en el runner
+        fecha = datetime.datetime(int(os.getenv('Y')),
+                                  int(os.getenv('M')),
+                                  int(os.getenv('D')),
+                                  int(os.getenv('H')))
+        ruta_fecha_hora = fecha.strftime('%Y_%m/%d_%H')
+        with open(self.carpeta + '/slurm-wrf-post.sh', 'r') as file:
+            filedata = file.read()
+
+        filedata = filedata.replace('{{NOMBRE}}', f"WRF-{self.nombre}")
+        filedata = filedata.replace('{{WORKDIR}}', os.getenv('WRF_OPERATIVO'))
+        filedata = filedata.replace('{{LOGS}}', f"{os.getenv('LOGS_DIR')}/"
+                                                f"{ruta_fecha_hora}/"
+                                                f"slurm-{self.nombre}-%j.out")
+        filedata = filedata.replace('{{PARAM}}', self.nombre)
+        with open(self.carpeta + '/slurm-wrf-ingestor.sh', 'w') as file:
+            file.write(filedata)
+
     def run_wrf_post(self):
         os.chdir(self.carpeta)
 
         self.generar_slurm_sh(self)
 
         _, output = subprocess.getstatusoutput('sbatch slurm-wrf.sh')
+        self.job_id = output.split(' ')[3]
+
+    def run_wrf_ingestor(self):
+        os.chdir(self.carpeta)
+
+        self.generar_slurm_sh_ingestor(self)
+
+        _, output = subprocess.getstatusoutput('slurm-wrf-ingestor.sh')
         self.job_id = output.split(' ')[3]
 
     def run_wrf(self):

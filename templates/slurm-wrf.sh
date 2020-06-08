@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name={{NOMBRE}}
+#SBATCH --job-name={{NOMBRE}}-new
 #SBATCH --partition=WRF-norm
 #SBATCH --exclusive
 
@@ -23,9 +23,6 @@ cd $TEMP_DIR/{{PARAM}}/wrfplot-v1.2.0
 
 source $WRF_OPERATIVO/env-node.sh
 conda activate wrfplot-env32
-
-# Token para el usuario wrfplot
-export API_TOKEN="29736090019d44b8ee4b52ed54ca25e39b40dabb"
 
 ray start --head --redis-port=6379 --num-cpus=32 # --object-store-memory 42949672960 --redis-max-memory 21474836480
 

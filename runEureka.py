@@ -171,6 +171,9 @@ def main():
         param_classes[codigo].run_wrf_post()
         jobs_ids[codigo] = param_classes[codigo].job_id
 
+        param_classes[codigo].run_wrf_ingestor(codigo)
+        jobs_ids[codigo] = param_classes[codigo].job_id
+
     # Generar media
     gen_final()
 
