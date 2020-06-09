@@ -48,7 +48,7 @@ class ParametrizacionWRF(object):
                                                   f"/wrfout_{self.nombre}_d01_"
                                                   f"{os.getenv('Y')}-"
                                                   f"{os.getenv('M')}-"
-                                                  f"{os.getenv('D')}-"
+                                                  f"{os.getenv('D')}_"
                                                   f"{os.getenv('H')}:00:00")
         filedata = filedata.replace('{{OUTDIR}}', f"/home/wrf/datos-webwrf/img/"
                                                   f"{os.getenv('REGION')}/"

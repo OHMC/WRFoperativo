@@ -18,7 +18,7 @@
 source $WRF_OPERATIVO/env-node.sh
 conda activate wrfplot-env32
 
-cd {{TEMP_DIR}}/{{PARAM}}/wrfplot-v1.2.0
+cd {{TEMP_DIR}}/{{PARAM}}/wrfplot-v1.2.0/src
 
 # Token para el usuario wrfplot
 export API_TOKEN="29736090019d44b8ee4b52ed54ca25e39b40dabb"
