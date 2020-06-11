@@ -38,5 +38,9 @@ cp -a $HOME/wrf-cuenca-v0.9.0 {{TEMP_DIR}}/{{PARAM}}/
 
 cd {{TEMP_DIR}}/{{PARAM}}/wrf-cuenca-v0.9.0/src
 
-time python3 cuencas_wrf.py {{WRFOUT}}  /home/wrf/datos-webwrf/img/plots/ /home/wrf/datos-webwrf/datos-meteo/ 'CBA_{{PARAM}}_'$H
+ray start --head --redis-port=6379 --num-cpus=30
+
+time python3 cuencas_wrf.py {{WRFOUT}}  /home/wrf/datos-webwrf/img/plots/ /home/wrf/datos-webwrf/datos-meteo/
+
+ray stop
 
