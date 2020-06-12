@@ -33,17 +33,40 @@ class ParametrizacionWRF(object):
 
         filedata = filedata.replace('{{NOMBRE}}', f"WRF-{self.nombre}")
         filedata = filedata.replace('{{WORKDIR}}', os.getenv('WRF_OPERATIVO'))
+        filedata = filedata.replace('{{TEMP_DIR}}', os.getenv('TEMP_DIR'))
         filedata = filedata.replace('{{LOGS}}', f"{os.getenv('LOGS_DIR')}/"
                                                 f"{ruta_fecha_hora}/"
                                                 f"slurm-{self.nombre}-%j.out")
+        filedata = filedata.replace('{{LOGS-ERR}}', f"{os.getenv('LOGS_DIR')}/"
+                                                    f"{ruta_fecha_hora}"
+                                                    f"/slurm-{self.nombre}-"
+                                                    f"%j.err")
         filedata = filedata.replace('{{PARAM}}', self.nombre)
+        filedata = filedata.replace('{{WRFOUT}}', f"{os.getenv('WRFOUT_DIR')}/"
+                                                  f"{os.getenv('Y')}_"
+                                                  f"{os.getenv('M')}"
+                                                  f"/wrfout_{self.nombre}_d01_"
+                                                  f"{os.getenv('Y')}-"
+                                                  f"{os.getenv('M')}-"
+                                                  f"{os.getenv('D')}_"
+                                                  f"{os.getenv('H')}:00:00")
+        filedata = filedata.replace('{{OUTDIR}}', f"/home/wrf/datos-webwrf/img/"
+                                                  f"{os.getenv('REGION')}/"
+                                                  f"{self.nombre}/"
+                                                  f"{os.getenv('Y')}_"
+                                                  f"{os.getenv('M')}/"
+                                                  f"{os.getenv('D')}_"
+                                                  f"{os.getenv('H')}/")
+        filedata = filedata.replace('{{OUTDIR_WM}}', f"/home/wrf/"
+                                                     f"datos-webwrf/img/webmet/"
+                                                     f"{self.nombre}/")
         with open(self.carpeta + '/slurm-wrf.sh', 'w') as file:
             file.write(filedata)
 
     def generar_slurm_sh_ingestor(self):
         # Se copia el template
         os.system(f"cp -a {os.getenv('TEMPLATES_DIR')}/slurm-wrf-ingestor.sh "
-                  f"{self.carpeta}/slurm-wrf-post.sh")
+                  f"{self.carpeta}/slurm-wrf-ingestor.sh")
 
         # Se reemplazan las variables en el runner
         fecha = datetime.datetime(int(os.getenv('Y')),
@@ -51,14 +74,19 @@ class ParametrizacionWRF(object):
                                   int(os.getenv('D')),
                                   int(os.getenv('H')))
         ruta_fecha_hora = fecha.strftime('%Y_%m/%d_%H')
-        with open(self.carpeta + '/slurm-wrf-post.sh', 'r') as file:
+        with open(self.carpeta + '/slurm-wrf-ingestor.sh', 'r') as file:
             filedata = file.read()
 
         filedata = filedata.replace('{{NOMBRE}}', f"WRF-{self.nombre}")
+        filedata = filedata.replace('{{TEMP_DIR}}', os.getenv('TEMP_DIR'))
         filedata = filedata.replace('{{WORKDIR}}', os.getenv('WRF_OPERATIVO'))
         filedata = filedata.replace('{{LOGS}}', f"{os.getenv('LOGS_DIR')}/"
                                                 f"{ruta_fecha_hora}/"
                                                 f"slurm-{self.nombre}-%j.out")
+        filedata = filedata.replace('{{LOGS-ERR}}', f"{os.getenv('LOGS_DIR')}/"
+                                                    f"{ruta_fecha_hora}"
+                                                    f"/slurm-{self.nombre}-"
+                                                    f"%j.err")
         filedata = filedata.replace('{{PARAM}}', self.nombre)
         with open(self.carpeta + '/slurm-wrf-ingestor.sh', 'w') as file:
             file.write(filedata)

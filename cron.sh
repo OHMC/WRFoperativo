@@ -51,7 +51,8 @@ shift $((OPTIND-1))
 
 # Crea las variables de entorno
 source env.sh
-
+source /opt/intel/compilers_and_libraries/linux/bin/compilervars.sh
+source /opt/intel/compilers_and_libraries/linux/mpi/intel64/bin/mpivars.sh
 echo "################ Se ejecuta el runEureka ################"
 mkdir -p $LOGS_DIR/$Y'_'$M/$D'_'$H
 time python3 runEureka.py > $LOGS_DIR/$Y'_'$M/$D'_'$H/eureka_`date +%Y%m%d%H%M`.log 2>&1
