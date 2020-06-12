@@ -35,8 +35,8 @@ class ParametrizacionWRF(object):
         fldata = fldata.replace('{{WORKDIR}}', os.getenv('WRF_OPERATIVO'))
         fldata = fldata.replace('{{TEMP_DIR}}', os.getenv('TEMP_DIR'))
         fldata = fldata.replace('{{LOGS}}', f"{os.getenv('LOGS_DIR')}/"
-                                                f"{ruta_fecha_hora}/"
-                                                f"slurm-{self.nombre}-%j.out")
+                                            f"{ruta_fecha_hora}/"
+                                            f"slurm-{self.nombre}-%j.out")
         fldata = fldata.replace('{{LOGS-ERR}}', f"{os.getenv('LOGS_DIR')}/"
                                                 f"{ruta_fecha_hora}"
                                                 f"/slurm-{self.nombre}-"
