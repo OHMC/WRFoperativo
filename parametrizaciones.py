@@ -95,16 +95,16 @@ class ParametrizacionWRF(object):
         os.chdir(self.carpeta)
 
         self.generar_slurm_sh()
-        _, output = subprocess.getstatusoutput('sbatch slurm-wrf.sh')
-        self.job_id = output.split(' ')[3]
+
+        subprocess.run(["sbatch", "slurm-wrf.sh"], shell=True, check=True)
 
     def run_wrf_ingestor(self):
         os.chdir(self.carpeta)
 
         self.generar_slurm_sh_ingestor()
 
-        _, output = subprocess.getstatusoutput('sbatch slurm-wrf-ingestor.sh')
-        self.job_id = output.split(' ')[3]
+        subprocess.run(["sbatch", "slurm-wrf-ingestor.sh"], 
+                       shell=True, check=True)
 
     def run_wrf(self):
         print('Se linkean los ejecutables de WRF')
