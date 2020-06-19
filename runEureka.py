@@ -164,16 +164,15 @@ def main():
     # Se obtienen los códigos para las diferentes parametrizaciones
     codigos = os.getenv('CODIGOS').split(' ')
     param_classes = {}
-    jobs_ids = {}
+
     for codigo in codigos:
         # Se crea la clase para esta parametrización
         param_classes[codigo] = ParametrizacionWRF(codigo)
         # Se ejecuta el WRF y el post-procesamiento para cada prametrización
         param_classes[codigo].run_wrf_post()
-        jobs_ids[codigo] = param_classes[codigo].job_id
 
-        param_classes[codigo].run_wrf_ingestor()
-        jobs_ids[codigo] = param_classes[codigo].job_id_ingestor
+        # param_classes[codigo].run_wrf_ingestor()
+        # jobs_ids[codigo] = param_classes[codigo].job_id_ingestor
 
     # Generar media
     gen_final()
