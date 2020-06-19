@@ -171,7 +171,7 @@ def main():
         # Se ejecuta el WRF y el post-procesamiento para cada prametrización
         param_classes[codigo].run_wrf_post()
         jobs_ids[codigo] = param_classes[codigo].job_id
-        time.sleep(600)
+
         param_classes[codigo].run_wrf_ingestor()
         jobs_ids[codigo] = param_classes[codigo].job_id_ingestor
 

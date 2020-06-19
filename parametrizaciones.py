@@ -96,14 +96,14 @@ class ParametrizacionWRF(object):
 
         self.generar_slurm_sh()
 
-        subprocess.run(["sbatch", "slurm-wrf.sh"], shell=True, check=True)
+        subprocess.run("sbatch slurm-wrf.sh", shell=True, check=True)
 
     def run_wrf_ingestor(self):
         os.chdir(self.carpeta)
 
         self.generar_slurm_sh_ingestor()
 
-        subprocess.run(["sbatch", "slurm-wrf-ingestor.sh"], 
+        subprocess.run("sbatch slurm-wrf-ingestor.sh",
                        shell=True, check=True)
 
     def run_wrf(self):
