@@ -4,9 +4,9 @@
 """
 
 import os
-import subprocess
 import datetime
-import shlex
+# import shlex
+import subprocess
 from namelists import editar_namelist_wrf
 
 
@@ -99,16 +99,12 @@ class ParametrizacionWRF(object):
 
         command = ("RES=$(sbatch slurm-wrf.sh) && sbatch "
                    "--dependency=afterok:${RES##* } slurm-wrf-ingestor.sh")
+        """
         args = shlex.split(command)
-        subprocess.Popen(args)
-
-    def run_wrf_ingestor(self):
-        os.chdir(self.carpeta)
-
-        self.generar_slurm_sh_ingestor()
-
-        _, output = subprocess.getstatusoutput('sbatch slurm-wrf-ingestor.sh')
-        self.job_id_ingestor = output.split(' ')[3]
+        """
+        myoutput = open('output.dat', ' w+')
+        subprocess.Popen(command, stdout=myoutput,
+                         stderr=myoutput, universal_newlines=True)
 
     def run_wrf(self):
         print('Se linkean los ejecutables de WRF')
