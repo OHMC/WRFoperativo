@@ -20,7 +20,7 @@ source $WRF_OPERATIVO/env-node.sh
 # WRF PLOT INGESTION
 conda activate wrfplot-env32
 
-cd {{TEMP_DIR}}/{{PARAM}}/wrfplot-v1.2.0/src
+cd {{TEMP_DIR}}/{{PARAM}}/wrfplot/src
 
 # Token para el usuario wrfplot
 export API_TOKEN="29736090019d44b8ee4b52ed54ca25e39b40dabb"
@@ -28,7 +28,7 @@ export API_TOKEN="29736090019d44b8ee4b52ed54ca25e39b40dabb"
 time python3 api_ingest_csv.py
 
 
-cd {{TEMP_DIR}}/{{PARAM}}/wrf-cuenca-v0.9.0/src
+cd {{TEMP_DIR}}/{{PARAM}}/wrf-cuenca/src
 
 conda activate wrfcuenca3
 

@@ -22,6 +22,9 @@ class ParametrizacionWRF(object):
         os.system(f"cp -a {os.getenv('TEMPLATES_DIR')}/slurm-wrf.sh "
                   f"{self.carpeta}/slurm-wrf.sh")
 
+        os.system(f"cp -a {os.getenv('TEMPLATES_DIR')}/llama.sh "
+                  f"{self.carpeta}/llama.sh")
+        os.system(f"chmod +X {self.carpeta}/llama.sh")
         # Se reemplazan las variables en el runner
         fecha = datetime.datetime(int(os.getenv('Y')),
                                   int(os.getenv('M')),
@@ -97,13 +100,8 @@ class ParametrizacionWRF(object):
         self.generar_slurm_sh()
         self.generar_slurm_sh_ingestor()
 
-        command = ("RES=$(sbatch slurm-wrf.sh) && sbatch "
-                   "--dependency=afterok:${RES##* } slurm-wrf-ingestor.sh")
-        """
-        args = shlex.split(command)
-        """
-        myoutput = open('output.dat', ' w+')
-        subprocess.Popen(command, stdout=myoutput,
+        myoutput = open('output.dat', 'w+')
+        subprocess.Popen(['sh', 'llama.sh'], stdout=myoutput,
                          stderr=myoutput, universal_newlines=True)
 
     def run_wrf(self):
