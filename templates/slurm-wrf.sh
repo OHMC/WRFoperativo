@@ -38,6 +38,8 @@ cp -a $HOME/wrf-cuenca {{TEMP_DIR}}/{{PARAM}}/
 
 cd {{TEMP_DIR}}/{{PARAM}}/wrf-cuenca/src
 
+export API_BASE_URL_DICT='{"https://ohmc.com.ar/wrf-beta/api": {"token": "9c0d4c51ef7a43c3eab966b5cc96b549b2496caf"}, "https://ohmc.com.ar/wrf/api": {"token": "9c0d4c51ef7a43c3eab966b5cc96b549b2496caf"}}'
+
 ray start --head --redis-port=6379 --num-cpus=30
 
 time python3 cuencas_wrf.py {{WRFOUT}}  /home/wrf/datos-webwrf/img/plots/ /home/wrf/datos-webwrf/datos-meteo/
