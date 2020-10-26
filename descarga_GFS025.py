@@ -50,6 +50,8 @@ BASE_ADDR = "https://nomads.ncep.noaa.gov/cgi-bin/"
 
 PERL_FILTER = "filter_gfs_0p25.pl"
 
+BASE_FTP = "https://ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/"
+
 DOMAIN_PARAMETERS = (f"&subregion=&leftlon={LON_W}&rightlon={LON_E}"
                      f"&bottomlat={LAT_S}&toplat={LAT_N}")
 LEVELS = "&all_lev=on"
@@ -153,7 +155,8 @@ def get_list_gfs(inidate):
     return list_remote_files, list_files_local
 
 
-def download(output_dir, list_remote_files, list_files_local):
+def download(output_dir, list_remote_files,
+             list_files_local, server=BASE_ADDR):
     """
     Se descargan los datos con los siguientes parámetros::
 
@@ -179,7 +182,7 @@ def download(output_dir, list_remote_files, list_files_local):
     WORK = True
 
     count_files_to_download = len(list_remote_files)
-    print(f"Request in server: {BASE_ADDR}")
+    print(f"Request in server: {server}")
     print(f"count of files to download: {count_files_to_download}")
     # extenar check, if this fail we go out
     count = 1
@@ -192,7 +195,7 @@ def download(output_dir, list_remote_files, list_files_local):
 
         for ifile in range(0, count_files_to_download):
             count_down_iter = count_down_iter + 1
-            remote_file = f"{BASE_ADDR}{list_remote_files[ifile]}"
+            remote_file = f"{server}{list_remote_files[ifile]}"
             local_file = (f"{output_dir}/{list_files_local[ifile]}")
 
             ##############################
@@ -233,9 +236,9 @@ def download(output_dir, list_remote_files, list_files_local):
             time.sleep(S_SLEEP1)
         else:
             print('**************************************************')
-            print(f" All requested grib2 files downloaded !")
+            print(" All requested grib2 files downloaded !")
             print('**************************************************')
-            break
+            return True
 
         count = count+1
         if WORK:
@@ -244,10 +247,63 @@ def download(output_dir, list_remote_files, list_files_local):
                   f" other server")
             time.sleep(S_SLEEP2)
         else:
-            break
+            return True
 
         if not WORK:
-            break
+            return True
+
+    return False
+
+
+def download_ftp(output_dir: str, inidate: str):
+    """ Esta funcion es de bakcup y se ejecuta si y
+        sólo si hay errores en grib_filter
+    """
+
+    inidate = int(inidate)
+    date = inidate//100
+    fci = inidate-date*100
+
+    # Defines connection timeoutcd
+    socket.setdefaulttimeout(30)
+
+    # day="%4.4i%2.2i%2.2i" % (day.year,day.month,day.day)
+    # # structure definition
+    day = "%8.8i" % (date)
+    fciA = "%2.2i" % fci
+
+    # gfs.20201026/06/gfs.t06z.pgrb2.0p25.f027
+    print("Date and hour of GFS forecast initial time: ", day, fci)
+    dir_gfs_name = f"gfs.{day}/{fciA}/"
+
+    # Full list of requested files
+    list_remote_files = []
+    list_files_local = []
+
+    for iter_num_file in range(0, int(CANT_FILES_REQUESTED)):
+
+        hf = iter_num_file*DHOUR
+        hfA2 = "%3.3i" % hf
+
+        file_name_base = f"gfs.t{fciA}z.pgrb2.0p25.f{hfA2}"
+
+        remote_file = f"{dir_gfs_name}{file_name_base}"
+        local_file = f"GFS_{day}{fciA}+{hfA2}.grib2"
+
+        list_remote_files.append(remote_file)
+        list_files_local.append(local_file)
+
+        print("********************************")
+        print(remote_file)
+        print("********************************")
+        print(local_file)
+        print("********************************")
+
+    ok = download(output_dir, list_remote_files, list_files_local, BASE_FTP)
+    if ok:
+        print("Descarga secundaria ok")
+    else:
+        print("---------------- FALLARON LOS DOS SERVERS ----------------")
 
 
 def main():
@@ -269,7 +325,12 @@ def main():
         print("The parameter is required.  Nothing to do!")
     else:
         list_remote_files, list_files_local = get_list_gfs(args.inidate)
-        download(args.output, list_remote_files, list_files_local)
+        ok = download(args.output, list_remote_files, list_files_local)
+
+        if ok:
+            exit()
+        else:
+            download_ftp(args.output, args.inidate)
 
 
 if __name__ == "__main__":

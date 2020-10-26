@@ -13,7 +13,7 @@ import time
 import datetime
 import socket
 
-from descarga_GFS025 import download, get_list_gfs
+from descarga_GFS025 import download, get_list_gfs, download_ftp
 from namelists import editar_namelist_wps
 from parametrizaciones import ParametrizacionWRF
 
@@ -86,10 +86,15 @@ def descargar(i=0):
     # Descargamos los GFS
     try:
         list_remote_files, list_files_local = get_list_gfs(inidate)
-        download(output, list_remote_files, list_files_local)
+        ok = download(output, list_remote_files, list_files_local)
     except socket.timeout as err:
         print(err)
         descargar(i)
+
+    try: 
+        ok
+    except NameError:
+        download_ftp(output, inidate)
 
     # Comprobamos archivos descargados
     archivos = glob.glob(output + '/*')
@@ -125,18 +130,18 @@ def run_wps():
     os.chdir(f"{os.getenv('TEMP_DIR')}/WPS/")
 
     # Se ejecuta geogrid
-    os.system(f"time ./geogrid.exe > "
-              f"$LOGS_DIR/$Y'_'$M/$D'_'$H/geogrid_`date +%Y%m%d%H%M`.log 2>&1")
+    os.system("time ./geogrid.exe > "
+              "$LOGS_DIR/$Y'_'$M/$D'_'$H/geogrid_`date +%Y%m%d%H%M`.log 2>&1")
 
     # Se ejecuta ungrib
-    os.system(f"ln -sf ungrib/Variable_Tables/Vtable.GFS Vtable")
+    os.system("ln -sf ungrib/Variable_Tables/Vtable.GFS Vtable")
     os.system(f"./link_grib.csh {data}/")
-    os.system(f"time ./ungrib.exe > "
-              f"$LOGS_DIR/$Y'_'$M/$D'_'$H/ungrib_`date +%Y%m%d%H%M`.log 2>&1")
+    os.system("time ./ungrib.exe > "
+              "$LOGS_DIR/$Y'_'$M/$D'_'$H/ungrib_`date +%Y%m%d%H%M`.log 2>&1")
 
     # Se ejecuta metgrid
-    os.system(f"time ./metgrid.exe > "
-              f"$LOGS_DIR/$Y'_'$M/$D'_'$H/metgrid_`date +%Y%m%d%H%M`.log 2>&1")
+    os.system("time ./metgrid.exe > "
+              "$LOGS_DIR/$Y'_'$M/$D'_'$H/metgrid_`date +%Y%m%d%H%M`.log 2>&1")
 
 
 def gen_final():
