@@ -21,7 +21,7 @@ cp -a $HOME/wrfplot {{TEMP_DIR}}/{{PARAM}}/
 
 cd {{TEMP_DIR}}/{{PARAM}}/wrfplot/src
 
-source $WRF_OPERATIVO/env-node.sh
+source /home/wrf/WRFoperativo/env-node.sh
 conda activate wrfplot-env32
 
 ray start --head --redis-port=6379 --num-cpus=32 # --object-store-memory 42949672960 --redis-max-memory 21474836480
@@ -32,7 +32,7 @@ time python3 tabla_datos.py {{WRFOUT}} /home/wrf/datos-webwrf/datos-meteo/ 'CBA_
 
 ray stop
 
-source activate wrfcuenca3
+conda activate wrfcuenca3
 
 cp -a $HOME/wrf-cuenca {{TEMP_DIR}}/{{PARAM}}/
 
@@ -42,7 +42,7 @@ export API_BASE_URL_DICT='{"https://ohmc.com.ar/wrf-beta/api": {"token": "9c0d4c
 
 ray start --head --redis-port=6379 --num-cpus=30
 
-time python3 cuencas_wrf.py {{WRFOUT}}  /home/wrf/datos-webwrf/img/plots/ /home/wrf/datos-webwrf/datos-meteo/
+time python3 cuencas_wrf.py {{WRFOUT}}  /home/wrf/datos-webwrf/img/ /home/wrf/datos-webwrf/datos-meteo/
 
 ray stop
 
