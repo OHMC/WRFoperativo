@@ -143,3 +143,4 @@ temp/
 .vscode
 env.sh
 log.log
+log.cron
