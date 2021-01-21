@@ -15,7 +15,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=amartina@unc.edu.ar
 
-source $WRF_OPERATIVO/env-node.sh
+source /home/wrf/WRFoperativo/env-node.sh
 
 # WRF PLOT INGESTION
 conda activate wrfplot-env32

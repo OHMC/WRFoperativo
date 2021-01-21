@@ -121,7 +121,7 @@ def run_wps():
 
     # Se linkean los ejecutables de WPS
     os.system(f"mkdir -p {os.getenv('TEMP_DIR')}/WPS")
-    os.system(f"ln -sf {os.getenv('WRF_BASE')}/WPS-4.1/* "
+    os.system(f"ln -sf {os.getenv('WRF_BASE')}/WPS-4.2/* "
               f"{os.getenv('TEMP_DIR')}/WPS/")
 
     # Se edita el namelist

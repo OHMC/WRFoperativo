@@ -106,8 +106,8 @@ class ParametrizacionWRF(object):
 
     def run_wrf(self):
         print('Se linkean los ejecutables de WRF')
-        os.system(f"mkdir -p {self.carpeta}/WRF")
-        os.system(f"ln -sf {os.getenv('WRF_BASE')}/WRF-4.1.1/test/em_real/* "
+        os.system(f"mkdir -p {self.carpeta}/WRF/real-log")
+        os.system(f"ln -sf {os.getenv('WRF_BASE')}/WRF-4.2.1/test/em_real/* "
                   f"{self.carpeta}/WRF/")
 
         print('Se linkean las salidas de WPS')
@@ -123,6 +123,7 @@ class ParametrizacionWRF(object):
         os.system(f"time prun ./real.exe > $LOGS_DIR/$Y'_'$M/$D'_'$H/real_"
                   f"{self.nombre}_`date +%Y%m%d%H%M`.log 2>&1")
 
+        os.system(f"cp rsl* real-log/")
         print('Se ejecuta el WRF')
         os.system(f"time prun ./wrf.exe > $LOGS_DIR/$Y'_'$M/$D'_'$H/wrf_"
                   f"{self.nombre}_`date +%Y%m%d%H%M`.log 2>&1")
