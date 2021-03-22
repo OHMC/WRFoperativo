@@ -52,7 +52,7 @@ def editar_namelist_wrf(param):
 
     ruta_wrf = f"{os.getenv('TEMP_DIR')}/{param}/WRF"
     history_outname = (f"{os.getenv('WRFOUT_DIR')}{fecha.strftime('/%Y_%m/')}"
-                       f"wrfout_{param}_d<domain>_<date>")
+                       f"wrfout_{param}_d<domain>_<date>.nc")
 
     # Se copia el namelist temporal
     os.system(f"rm {ruta_wrf}/namelist.input")
