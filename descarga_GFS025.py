@@ -121,7 +121,7 @@ def get_list_gfs(inidate):
 
     print("Date and hour of GFS forecast initial time: ", day, fci)
 
-    dir_gfs_name = f"&dir=%2Fgfs.{day}%2F{fciA}"
+    dir_gfs_name = f"&dir=%2Fgfs.{day}%2F{fciA}%2Fatmos"
 
     # Full list of requested files
     list_remote_files = []
